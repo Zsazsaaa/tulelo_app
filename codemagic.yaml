@@ -1,3 +1,18 @@
-git add codemagic.yaml
-git commit -m 'Add first workflow'
-git push
+workflows:
+  flutter-android:
+    name: Build Flutter Android APK
+    instance_type: mac_mini
+    max_build_duration: 30
+    environment:
+      flutter: stable
+      vars:
+        PACKAGE_NAME: "com.example.tuleloapp"
+    scripts:
+      - name: Clean project
+        script: flutter clean
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Build APK (Unsigned)
+        script: flutter build apk --debug
+    artifacts:
+      - build/app/outputs/flutter-apk/app-debug.apk
